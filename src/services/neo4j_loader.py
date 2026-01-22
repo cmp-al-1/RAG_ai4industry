@@ -3,6 +3,7 @@ import json
 import glob
 from dotenv import load_dotenv
 from neo4j import GraphDatabase
+from src.services.pixtral import PixtralPDFProcessor
 
 load_dotenv()
 
@@ -312,6 +313,51 @@ class Neo4jLoader:
         print(f"Chargé {len(data.get('active_rd_projects', []))} projets R&D depuis {actual_file}")
         return True
 
+    def load_image(self, image_path="data/exemple.jpg"):
+        """Charge une image, l'analyse avec Pixtral et crée un nœud Image dans Neo4j"""
+        if not os.path.exists(image_path):
+            # Silencieux si l'image n'existe pas, ou warning
+            # print(f"⚠️ Image non trouvée: {image_path}")
+            return False
+
+        try:
+            print(f"🖼️ Analyse de l'image {image_path} avec Pixtral...")
+            processor = PixtralPDFProcessor(
+                mistral_api_key=os.getenv("MISTRAL_API_KEY"),
+                model="pixtral-12b-2409"
+            )
+            
+            # Utiliser process_image_complete qu'on a ajouté récemment
+            documents = processor.process_image_complete(image_path)
+            
+            if not documents:
+                print("❌ Aucune analyse produite par Pixtral")
+                return False
+                
+            # Extraire une description globale (concaténation des chunks)
+            description = "\n".join([doc.page_content for doc in documents])
+            filename = os.path.basename(image_path)
+
+            # Stocker dans Neo4j
+            with self.driver.session() as session:
+                session.run("""
+                    MERGE (i:Image {filename: $filename})
+                    SET i.description = $description,
+                        i.path = $path,
+                        i.analyzed_at = datetime()
+                """,
+                    filename=filename,
+                    description=description,
+                    path=image_path
+                )
+            
+            print(f"✅ Image {filename} chargée et analysée dans Neo4j!")
+            return True
+
+        except Exception as e:
+            print(f"❌ Erreur lors du chargement de l'image: {e}")
+            return False
+
     def load_all(self):
         """Charge toutes les données"""
         print("Début du chargement des données dans Neo4j...")
@@ -329,6 +375,10 @@ class Neo4jLoader:
             files_loaded += 1
 
         if self.load_rd_projects():
+            files_loaded += 1
+
+        # Chargement de l'image exemple (demandé spécifiquement)
+        if self.load_image("data/exemple.jpg"):
             files_loaded += 1
 
         if files_loaded == 0:

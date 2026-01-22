@@ -207,12 +207,7 @@ def main():
         if submitted and question_auto:
             # Analyse rapide (sans explication détaillée visuelle)
             routing = hybrid_rag.explain_routing(question_auto)
-            if routing['strategy'] == "multi_hop":
-                strategy_display = "🧠 Mode Multi-Hop (Graph + Vector)"
-            elif routing['strategy'] == "visual":
-                strategy_display = "🖼️ Mode Visuel (Pixtral)"
-            else:
-                strategy_display = "🔎 Mode Simple (Vector)"
+            strategy_display = "🧠 Mode Multi-Hop (Graph + Vector)" if routing['strategy'] == "multi_hop" else "🔎 Mode Simple (Vector)"
             
             st.markdown(f"""
                 <div style='margin-bottom: 1rem; color: #64748b; font-size: 0.9rem;'>

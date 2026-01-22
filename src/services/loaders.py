@@ -61,7 +61,8 @@ def load_pdf_with_pixtral(file_path, mistral_api_key):
 
         # Callback de progression pour Streamlit
         def progress_callback(current, total):
-            st.sidebar.info(f"🔍 Analyse Pixtral: Page {current}/{total}")
+            # st.sidebar.info(f"🔍 Analyse Pixtral: Page {current}/{total}")
+            print(f"🔍 Analyse Pixtral: Page {current}/{total}")
 
         documents = processor.process_pdf_complete(
             file_path,
@@ -70,12 +71,14 @@ def load_pdf_with_pixtral(file_path, mistral_api_key):
         )
 
         if documents:
-            st.sidebar.success(f"✅ {len(documents)} chunks enrichis créés avec Pixtral!")
+            # st.sidebar.success(f"✅ {len(documents)} chunks enrichis créés avec Pixtral!")
+            print(f"✅ {len(documents)} chunks enrichis créés avec Pixtral!")
 
         return documents
 
     except Exception as e:
-        st.warning(f"⚠️ Erreur Pixtral pour {Path(file_path).name}, fallback sur pypdf: {e}")
+        # st.warning(f"⚠️ Erreur Pixtral pour {Path(file_path).name}, fallback sur pypdf: {e}")
+        print(f"⚠️ Erreur Pixtral pour {Path(file_path).name}, fallback sur pypdf: {e}")
         return load_pdf(file_path)
 
 def load_image(file_path, mistral_api_key):
@@ -89,18 +92,20 @@ def load_image(file_path, mistral_api_key):
             cache_images=False
         )
 
-        st.toast(f"🔍 Analyse Pixtral de l'image...", icon="🔍")
+        # st.toast(f"🔍 Analyse Pixtral de l'image...", icon="🔍")
+        print(f"🔍 Analyse Pixtral de l'image: {file_path}")
         
         documents = processor.process_image_complete(file_path)
 
         if documents:
-            st.toast(f"✅ Image analysée avec succès!", icon="✅")
-            print(f"Chargé image {Path(file_path).name} avec Pixtral ({len(documents)} chunks)")
+            # st.toast(f"✅ Image analysée avec succès!", icon="✅")
+            print(f"✅ Image {Path(file_path).name} analysée avec succès! ({len(documents)} chunks)")
 
         return documents
 
     except Exception as e:
-        st.toast(f"⚠️ Erreur Pixtral pour l'image {Path(file_path).name}: {e}", icon="⚠️")
+        # st.toast(f"⚠️ Erreur Pixtral pour l'image {Path(file_path).name}: {e}", icon="⚠️")
+        print(f"⚠️ Erreur Pixtral pour l'image {Path(file_path).name}: {e}")
         return []
 
 def load_documents_from_directory(directory, mistral_api_key):
@@ -132,6 +137,6 @@ def load_documents_from_directory(directory, mistral_api_key):
                         docs = loaders[ext](str(file_path))
                     all_documents.extend(docs)
                 except Exception as e:
-                    st.warning(f"Erreur lors du chargement de {file_path.name}: {e}")
+                    print(f"Erreur lors du chargement de {file_path.name}: {e}")
 
     return all_documents

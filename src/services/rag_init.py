@@ -28,6 +28,7 @@ def init_components(mistral_api_key, qdrant_endpoint, qdrant_api_key):
 
     return qdrant_client, embeddings, llm, hybrid_rag
 
+@st.cache_resource
 def load_and_index_documents(_qdrant_client, _embeddings, collection_name, qdrant_endpoint, qdrant_api_key, mistral_api_key):
     documents = load_documents_from_directory("data", mistral_api_key)
 

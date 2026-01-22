@@ -13,7 +13,7 @@ Ce projet implémente une interface de **Retrieval-Augmented Generation (RAG)** 
 - **🧠 Routeur Intelligent** : Analyse votre question et choisit automatiquement la meilleure stratégie (RAG Simple vs RAG Hybride).
 - **🕸️ Raisonnement Multi-Hop** : Capable de naviguer dans le graphe pour relier des produits, des événements, des ventes et des projets R&D.
 - **📊 Dashboard Temps Réel** : Visualisez les métriques de vos bases de données (Qdrant & Neo4j) et analysez les performances des requêtes.
-- **📁 Ingestion Flexible** : Supporte le chargement de fichiers `.txt`, `.json`, `.csv` et `.pdf` (avec extraction intelligente).
+- **📁 Ingestion Flexible** : Supporte le chargement de fichiers `.txt`, `.json`, `.csv`, `.jpg`, `.png` et `.pdf` (avec extraction intelligente).
 - **🖥️ Interface Moderne** : Une UI Streamlit soignée, intuitive et responsive.
 
 ---
@@ -23,6 +23,7 @@ Ce projet implémente une interface de **Retrieval-Augmented Generation (RAG)** 
 Le système s'appuie sur une architecture robuste :
 - **Frontend** : Streamlit
 - **LLM & Embeddings** : Mistral AI (via LangChain)
+- **VLLM** : Pixtral AI (via LangChain)
 - **Vector Store** : Qdrant
 - **Graph Database** : Neo4j
 - **Orchestration** : LangChain & Logique personnalisée (HybridRAG)
@@ -115,7 +116,29 @@ Le système gère les entités suivantes dans Neo4j :
 
 ---
 
-## 👥 Crédits
+## � Aperçu / Screenshots
+
+### Interface Principale - Chatbot
+![Interface Chatbot](Livrables/image.png)
+
+### Exemple de Réponse RAG
+![Réponse RAG](Livrables/image2.png)
+
+### Sources et Justifications
+![Sources](Livrables/image3.png)
+
+### Dashboard des Métriques
+![Dashboard](Livrables/image4.png)
+
+### Gestion des Fichiers et Configuration
+![Configuration](Livrables/image5.png)
+
+### Visualisation du Graphe de Connaissances (Neo4j)
+![Graphe Neo4j](Livrables/neo4j_graph.png)
+
+---
+
+## �👥 Crédits
 
 **Développé avec ❤️ par l'équipe :**
 - Enzo

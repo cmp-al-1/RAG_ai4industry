@@ -70,19 +70,10 @@ class HybridRAG:
             "garantie", "warranty", "maintenance"
         ]
 
-        # Keywords visuels (images)
-        visual_keywords = [
-            "image", "photo", "visuel", "figure", "graphique",
-            ".jpg", ".png", ".jpeg", "illustration", "dessin"
-        ]
-
-        visual_score = sum(1 for keyword in visual_keywords if keyword in question_lower)
         simple_score = sum(1 for keyword in simple_keywords if keyword in question_lower)
 
         # Decision
-        if visual_score > 0:
-            return "visual"
-        elif multi_hop_score > simple_score:
+        if multi_hop_score > simple_score:
             return "multi_hop"
         else:
             return "simple"
@@ -255,11 +246,6 @@ RÉPONSE:"""
         # Router vers la bonne méthode
         if strategy == "multi_hop":
             return self.query_hybrid(question, vector_store)
-        elif strategy == "visual":
-            # Le mode visuel utilise le RAG simple (vectoriel) mais avec une intention différente
-            result = self.query_simple(question, vector_store)
-            result["strategy"] = "visual"
-            return result
         else:
             return self.query_simple(question, vector_store)
 
@@ -281,17 +267,9 @@ Le graphe Neo4j va permettre de:
 - Calculer des agrégations
 - Trouver des patterns complexes
 """
-        elif strategy == "visual":
-            explanation = """
-Cette question concerne une **IMAGE** ou un contenu visuel.
-Le système va utiliser les descriptions enrichies générées par **Pixtral (Vision LLM)**.
-
-- Recherche des chunks décrivant les images (nom du fichier, description visuelle).
-- Utilisation de la recherche vectorielle pour trouver l'image la plus pertinente.
-"""
         else:
             explanation = """
-Cette question peut être traité avec un RAG SIMPLE (Qdrant uniquement) car elle demande:
+Cette question peut être traitée avec un RAG SIMPLE (Qdrant uniquement) car elle demande:
 - Une description ou spécification
 - Des informations contenues dans les documents
 - Pas de relations complexes ou agrégations
