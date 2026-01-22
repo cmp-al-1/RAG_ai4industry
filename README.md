@@ -99,6 +99,7 @@ C'est le cœur du système. Posez votre question dans la barre de chat.
 
 #### 3. Onglet "📊 Dashboard Métriques"
 Surveillez la santé de votre système :
+- Temps de réponse des requêtes LLM.
 - Nombre de documents vectorisés.
 - Nombre de nœuds et relations dans le graphe.
 - Tests de performance (latence des requêtes).
@@ -140,4 +141,9 @@ Le système gère les entités suivantes dans Neo4j :
 
 ## �👥 Crédits
 
-**Développé avec ❤️ par le Groupe 1 :**
+**Développé avec ❤️ par le groupe 1 :**
+- Enzo
+- Kyllian
+- Romain
+- Will
+- Yovèn
