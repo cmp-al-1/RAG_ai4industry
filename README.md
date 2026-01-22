@@ -140,9 +140,4 @@ Le système gère les entités suivantes dans Neo4j :
 
 ## �👥 Crédits
 
-**Développé avec ❤️ par l'équipe :**
-- Enzo
-- Kyllian
-- Romain
-- Will
-- Yovèn
+**Développé avec ❤️ par le Groupe 1 :**
